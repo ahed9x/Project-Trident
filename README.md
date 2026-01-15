@@ -30,6 +30,11 @@ Most comercially avaliabe 3d printers use local NPU for heavy AI workload thats 
 * **Software:** slightly higher, more dedicated AI models as the Orange Pi has faster cores and 6 built-in AI tops (3x the Bambu Lab X1c)
 * **Results:** Extremely accurate AI models that are needed for auto calibration and even real-time compensation at at least 15 fps
 
+#### Path 3:
+* **Hardware:** Any
+* **Software:** it will lack real time anything except if used apis but calibrationion process will be calculated on the users own pc 
+* **Results:** Extremely cost-efficient but relies on the users pc to be on while calibrating
+
 ### ⛓️ 3. Hybrid Supply Chain (Cost Engineering)
 
 To fit the budget, the machine is down-sized to the **250mm spec**:
