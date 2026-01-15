@@ -14,7 +14,7 @@ Unlike standard StealthBurner modifications that disrupt airflow, I designed a p
 
 * **Design Intent:** Integrates a 5.5mm endoscope for computer vision without compromising thermal aerodynamics or blocking the inductive probe.
 * **Feature:** Includes an M3 grub-screw locking mechanism for vibration resistance during high-speed CoreXY motion.
-* **File:** [`/CAD/Trident_Nozzle_Cam_Mount_v1.step`](https://www.google.com/search?q=./CAD)
+* **File:** [`/CAD/Trident_Nozzle_Cam_Mount_v1.step`](https://github.com/ahed9x/Project-Trident/blob/main/CAD/Trident_Nozzle_Cam_Mount_v1.step)
 
 ### 🤖 2. Frugal AI & "Edge" Optimization
 
