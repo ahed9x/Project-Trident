@@ -37,7 +37,7 @@ Most comercially avaliabe 3d printers use local NPU for heavy AI workload thats 
 
 ### ⛓️ 3. Hybrid Supply Chain (Cost Engineering)
 
-To fit the budget, the machine is down-sized to the **250mm spec**:
+To fit the budget, the machine might be down-sized to the **250mm spec**:
 
 * **Localization:** everything is sourced locally from my home country -Egypt- except for some bearings and the Trianglelab CHC Pro hotend.
 * **Strategic Imports:** Only scarce or unavailable components are imported via AliExpress.
