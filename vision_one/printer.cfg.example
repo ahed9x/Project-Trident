@@ -1,0 +1,158 @@
+# Vision One - Klipper Configuration Example
+# Add this section to your printer.cfg
+
+[vision_one]
+# Camera Configuration
+camera_device: 0                     # USB camera device ID (0 = /dev/video0)
+camera_width: 1920                   # Camera resolution width
+camera_height: 1080                  # Camera resolution height
+camera_fps: 30                       # Camera frames per second
+
+# File Paths
+base_path: /tmp/vision_one           # Base directory for all Vision One data
+# Models will be stored in: /tmp/vision_one/models/
+# Calibrations in: /tmp/vision_one/calibration/
+# Timelapses in: /tmp/vision_one/timelapse/
+
+# AI Model Paths (optional - provide if you have custom models)
+# spaghetti_model: /path/to/spaghetti_detector.tflite
+# first_layer_model: /path/to/first_layer_classifier.tflite
+
+# Feature Flags - Enable/Disable Features
+enable_spaghetti_detection: True     # Enable AI-based spaghetti detection
+enable_first_layer_inspection: True  # Enable first layer quality analysis
+enable_clog_detection: False         # Enable optical flow clog detection
+enable_timelapse: True               # Enable timelapse recording
+
+# Spaghetti Detection Parameters
+spaghetti_check_interval: 10.0       # Check every N seconds during print
+spaghetti_threshold: 0.7             # Confidence threshold (0.0-1.0)
+
+# Clog Detection Parameters
+clog_flow_threshold: 2.0             # Minimum optical flow magnitude
+
+# Timelapse Configuration
+timelapse_park_x: 10.0               # X position to park toolhead for frame capture
+timelapse_park_y: 10.0               # Y position to park toolhead for frame capture
+timelapse_park_z_lift: 0.5           # Z-axis lift during park (mm)
+
+###############################################################################
+# G-Code Command Reference
+###############################################################################
+
+# Vision Calibration Commands:
+# CALIBRATE_SKEW_VISION     - Detect ChArUco board and calculate skew
+# CALIBRATE_NOZZLE_VISION   - Detect reference marker for nozzle offset
+# CALIBRATE_FLOW_VISION EXPECTED_WIDTH=0.4  - Analyze line width for flow rate
+# VISUAL_Z_OFFSET [DURATION=30]  - Stream camera with crosshair overlay
+
+# AI Monitoring Commands:
+# DETECT_SPAGHETTI [PAUSE_ON_DETECT=1]  - Run spaghetti detection
+# INSPECT_FIRST_LAYER                   - Analyze first layer quality
+
+# Timelapse Commands:
+# START_TIMELAPSE  - Begin capturing timelapse frames
+# STOP_TIMELAPSE   - Compile and save timelapse video
+
+# Status:
+# VISION_STATUS    - Display Vision One status and configuration
+
+###############################################################################
+# Example Macro: Auto-Calibrate Before Print
+###############################################################################
+
+[gcode_macro VISION_PRE_PRINT_CALIBRATION]
+gcode:
+    # Home all axes
+    G28
+    
+    # Move to ChArUco board position (adjust for your setup)
+    G0 X150 Y150 Z50 F3000
+    
+    # Run skew calibration
+    CALIBRATE_SKEW_VISION
+    
+    # Move to reference marker position
+    G0 X10 Y10 Z10 F3000
+    
+    # Calibrate nozzle offset
+    CALIBRATE_NOZZLE_VISION
+    
+    # Return to home
+    G28
+
+###############################################################################
+# Example Macro: First Layer Check
+###############################################################################
+
+[gcode_macro CHECK_FIRST_LAYER]
+gcode:
+    # Wait for first layer to complete (adjust timing as needed)
+    G4 P5000  ; Wait 5 seconds
+    
+    # Inspect first layer
+    INSPECT_FIRST_LAYER
+    
+    # If you want automatic pause on poor quality, add logic here
+
+###############################################################################
+# Example Macro: Print Start with Vision Features
+###############################################################################
+
+[gcode_macro PRINT_START_VISION]
+gcode:
+    # Standard print start sequence
+    G28                              ; Home all axes
+    G90                              ; Absolute positioning
+    M109 S{params.EXTRUDER_TEMP}     ; Wait for extruder temp
+    M190 S{params.BED_TEMP}          ; Wait for bed temp
+    
+    # Start timelapse
+    START_TIMELAPSE
+    
+    # Enable spaghetti detection (runs automatically in background)
+    # No explicit command needed - enabled in config
+    
+    # Begin print
+    G1 X0 Y0 Z0.3 F3000              ; Move to start position
+
+###############################################################################
+# Example Macro: Print End with Vision Features
+###############################################################################
+
+[gcode_macro PRINT_END_VISION]
+gcode:
+    # Standard print end sequence
+    M104 S0                          ; Turn off extruder
+    M140 S0                          ; Turn off bed
+    G91                              ; Relative positioning
+    G1 Z10 F3000                     ; Raise nozzle
+    G90                              ; Absolute positioning
+    G1 X0 Y250 F3000                 ; Present print
+    M84                              ; Disable motors
+    
+    # Stop and compile timelapse
+    STOP_TIMELAPSE
+
+###############################################################################
+# Installation Notes
+###############################################################################
+
+# 1. Copy vision_one.py to your Klipper extras directory:
+#    sudo cp vision_one.py ~/klipper/klippy/extras/
+#
+# 2. Install Python dependencies:
+#    ~/klippy-env/bin/pip install -r requirements.txt
+#
+# 3. Restart Klipper:
+#    sudo systemctl restart klipper
+#
+# 4. Verify installation:
+#    Run VISION_STATUS command in console
+#
+# 5. (Optional) Add AI models to /tmp/vision_one/models/
+#    - spaghetti_detector.tflite
+#    - first_layer_classifier.tflite
+#
+# 6. Test camera:
+#    Run VISUAL_Z_OFFSET to verify camera is working

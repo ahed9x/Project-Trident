@@ -1,0 +1,22 @@
+# Klipper Vision One - Python Dependencies
+# Install with: pip install -r requirements.txt
+
+# Computer Vision
+opencv-python-headless==4.8.1.78
+opencv-contrib-python-headless==4.8.1.78  # For ArUco markers
+
+# Numerical Computing
+numpy==1.24.3
+
+# TensorFlow Lite for Edge AI
+tflite-runtime==2.14.0
+
+# Video Processing
+ffmpeg-python==0.2.0
+
+# Image Processing & Utils
+Pillow==10.1.0
+scipy==1.11.4
+
+# Async & Threading
+asyncio==3.4.3
