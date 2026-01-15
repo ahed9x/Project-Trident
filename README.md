@@ -1,3 +1,4 @@
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](./LICENSE)
 ## Project: Cairo Smart-Trident 🔱
 
 I am on a mission to create the most reliable open-source printer based upon voron printers' design, with plug and play and auto error detection for nearly everything.
@@ -76,4 +77,13 @@ I have optimized the BOM, but it is still not 100% ready yet.
 
 
 ---
+
+## 🤝 Credits & Acknowledgements
+
+This project is a derivative work based on the **Voron Trident** by [Voron Design](https://vorondesign.com/).
+* **Original Core Motion System:** Voron Design Team (GPL v3.0)
+* **StealthBurner Toolhead:** Voron Design Team (GPL v3.0)
+* **Modifications:** The "Side-Car" vision mount, economy-spec adaptation, and edge-AI integration are custom modifications engineered by me for this project.
+
+Special thanks to the open-source 3D printing community for the Klipper firmware and Voron documentation that made this build possible.
 Note: I wrote most of this and even added emojis manually
